@@ -26,53 +26,53 @@ import org.json.JSONObject;
 
 public class UnRegistrar
 {
-	int serverPort;	//·şÎñÆ÷¶Ë¿ÚºÅ
-	InetAddress serverAddr = null;//±£´æÄ¿±ê·şÎñÆ÷µÄµØÖ·
-	DatagramSocket client=null; //¿Í»§¶Ësocket
+	int serverPort;	//æœåŠ¡å™¨ç«¯å£å·
+	InetAddress serverAddr = null;//ä¿å­˜ç›®æ ‡æœåŠ¡å™¨çš„åœ°å€
+	DatagramSocket client=null; //å®¢æˆ·ç«¯socket
 	
-	DatagramPacket recvPacket = null; //½ÓÊÕ°üÊı¾İ
+	DatagramPacket recvPacket = null; //æ¥æ”¶åŒ…æ•°æ®
 	DatagramPacket sendPacket=null;
 	
-	//sipĞ­ÒéÖĞµÄĞÅÏ¢
+	//sipåè®®ä¸­çš„ä¿¡æ¯
 	String Uri;
-	String addr;//±¾»úµØÖ·	 			
+	String addr;//æœ¬æœºåœ°å€	 			
 	String Nc = "00000001";
 	String Qop = "auth";
 	String Cnonce = "094b142e39e0518f";
-	String serverHost;//·şÎñÆ÷µØÖ·
+	String serverHost;//æœåŠ¡å™¨åœ°å€
 	String Nonce = "";		
-	String response = ""; //MD5Éú³ÉµÄ¼øÈ¨
+	String response = ""; //MD5ç”Ÿæˆçš„é‰´æƒ
 	String localPort="";
 	String userinfo="";
 	String Phone="";
 	String passwd="";
 	
-	//private static String LOGFILE_NAME;     // Éú³ÉµÄlogÎÄ¼şÃû£¬ÓÃÒÔÇø·ÖÆäËûÓÃ»§
-	private static final int TIMEOUT = 2000; // ÉèÖÃ³¬Ê±Îª2Ãë 
-	private static final int MAXTRIES = 5;     // ×î´óÖØ·¢´ÎÊı5
-	boolean timeoutflag = false; //½ÓÊÕ³¬Ê±±êÖ¾Î»
-	private int Delay; //ÑÓÊ±²ÎÊı
+	//private static String LOGFILE_NAME;     // ç”Ÿæˆçš„logæ–‡ä»¶åï¼Œç”¨ä»¥åŒºåˆ†å…¶ä»–ç”¨æˆ·
+	private static final int TIMEOUT = 2000; // è®¾ç½®è¶…æ—¶ä¸º2ç§’ 
+	private static final int MAXTRIES = 5;     // æœ€å¤§é‡å‘æ¬¡æ•°5
+	boolean timeoutflag = false; //æ¥æ”¶è¶…æ—¶æ ‡å¿—ä½
+	private int Delay; //å»¶æ—¶å‚æ•°
 	private static int cseq = 0;
-	//²âÊÔUnRegÓÃµ½µÄ²ÎÊı
+	//æµ‹è¯•UnRegç”¨åˆ°çš„å‚æ•°
 	private int UnDelay;
-	//²âÊÔfpreÓÃµ½µÄ±äÁ¿¼¯ºÏ
-	private static boolean TIMEUP = false;//³¬¹ıÊ±¼äÖØ·¢regµÄ ±êÖ¾
-	private static String Mes407;//±£´æÖØ·¢ĞèÒªµÄregĞÅÏ¢
+	//æµ‹è¯•fpreç”¨åˆ°çš„å˜é‡é›†åˆ
+	private static boolean TIMEUP = false;//è¶…è¿‡æ—¶é—´é‡å‘regçš„ æ ‡å¿—
+	private static String Mes407;//ä¿å­˜é‡å‘éœ€è¦çš„regä¿¡æ¯
 	private String xd_name;
 	private String jsonshare;
 	private String mesok;
 	private String Call;
 	private String CseqStr;
-	private int seq; //ÓÃÓÚÆ¥Åä·¢ËÍfpre jsonÖĞµÄseq
+	private int seq; //ç”¨äºåŒ¹é…å‘é€fpre jsonä¸­çš„seq
 	private static int ShareDelay;
 	private int ShareCount;
-	Command record; //¼ÇÂ¼Ö´ĞĞµÄÃüÁî
-	String strSSM; //±£´æjsonÏûÏ¢£¬ÓÃÓÚÖØ·¢
-	//²âÊÔĞ¡¶¹Èº×éÉ¾³ı¸ü¸ÄµÈ²Ù×÷ÓÃµ½µÄ±äÁ¿¼¯ºÏ
+	Command record; //è®°å½•æ‰§è¡Œçš„å‘½ä»¤
+	String strSSM; //ä¿å­˜jsonæ¶ˆæ¯ï¼Œç”¨äºé‡å‘
+	//æµ‹è¯•å°è±†ç¾¤ç»„åˆ é™¤æ›´æ”¹ç­‰æ“ä½œç”¨åˆ°çš„å˜é‡é›†åˆ
 	private String xdopertmp;
 	private int xd_oper;
 	private String xd_user;
-	//¼ÓÁ÷Á¿²âÊÔËùÓÃµ½µÄ±äÁ¿¼¯ºÏ
+	//åŠ æµé‡æµ‹è¯•æ‰€ç”¨åˆ°çš„å˜é‡é›†åˆ
 	private String calleePhone;
 	private int AudioPort;
 	private int VideoPort;
@@ -86,39 +86,39 @@ public class UnRegistrar
 	private String FromTo;
 	private String ByeOK_tag2;
 	private String ByeOK_Via;
-	private int SAudioPort, SVideoPort; //ÓÃÓÚ´æ´¢·şÎñÆ÷·¢¹ıÀ´µÄÒôÊÓÆµ¶Ë¿Ú
-	private long AudioPackageNum = 0, AudioPackageNumrev = 0; //ÓÃÓÚÍ³¼Æ·¢°üÊıÁ¿
-	private long VideoPackageNum = 0, VideoPackageNumrev = 0; //ÓÃÓÚÍ³¼Æ·¢°üÊıÁ¿
-	DatagramSocket AudioClient=null; //ÒôÆµsocket
-	DatagramSocket VideoClient=null; //ÒôÆµsocket
-	private static final int AudioDataLen = 46;     //ÒôÆµÊı¾İµÄ³¤¶È
-	private static final int VideoDataLen = 1212;     //ÊÓÆµÊı¾İµÄ³¤¶È
-	private short AudioSeq = 1; //Ã¿´Î¼Ó1
-	private int AudioTimes = 1; //Ã¿´Î¼Ó160
-	private short VideoSeq = 1; //Ã¿´Î¼Ó1
-	private int VideoTimes = 1; //Ã¿´Î6¼Ó9000
+	private int SAudioPort, SVideoPort; //ç”¨äºå­˜å‚¨æœåŠ¡å™¨å‘è¿‡æ¥çš„éŸ³è§†é¢‘ç«¯å£
+	private long AudioPackageNum = 0, AudioPackageNumrev = 0; //ç”¨äºç»Ÿè®¡å‘åŒ…æ•°é‡
+	private long VideoPackageNum = 0, VideoPackageNumrev = 0; //ç”¨äºç»Ÿè®¡å‘åŒ…æ•°é‡
+	DatagramSocket AudioClient=null; //éŸ³é¢‘socket
+	DatagramSocket VideoClient=null; //éŸ³é¢‘socket
+	private static final int AudioDataLen = 46;     //éŸ³é¢‘æ•°æ®çš„é•¿åº¦
+	private static final int VideoDataLen = 1212;     //è§†é¢‘æ•°æ®çš„é•¿åº¦
+	private short AudioSeq = 1; //æ¯æ¬¡åŠ 1
+	private int AudioTimes = 1; //æ¯æ¬¡åŠ 160
+	private short VideoSeq = 1; //æ¯æ¬¡åŠ 1
+	private int VideoTimes = 1; //æ¯æ¬¡6åŠ 9000
 	private static boolean StartUpdata = false;
 	private static int UpdataDelay;
-	//½ÓÊÕµ½µÄ×Ö·û´®ÖĞµÄ¹Ø¼ü×Ö¶Î,ÓÃÓÚÅĞ¶Ï
+	//æ¥æ”¶åˆ°çš„å­—ç¬¦ä¸²ä¸­çš„å…³é”®å­—æ®µ,ç”¨äºåˆ¤æ–­
 	String[] keytext = {"SIP/2.0 407 Proxy Authentication Required", "SIP/2.0 418",
 						"text/plain","INVITE", "BYE sip", "UPDATE sip", "SIP/2.0 100 Trying",
 						"SIP/2.0 200 OK", "application/sdp"};
 	
-	//½ÓÊÕµ½µÄ×´Ì¬½×¶Î
+	//æ¥æ”¶åˆ°çš„çŠ¶æ€é˜¶æ®µ
 	public enum State {Reg407, Reg418, Text, Invite, BYE, UPDATE, Trying, OK200};
-	//±¾º¯ÊıÖ´ĞĞµÄÃüÁî
+	//æœ¬å‡½æ•°æ‰§è¡Œçš„å‘½ä»¤
 	public enum Command {Registrar, UnRegistrar, FpreShared, SendMsg, Caller, Callee};
-	//Éú³ÉÏûÏ¢µÄÃüÁî
+	//ç”Ÿæˆæ¶ˆæ¯çš„å‘½ä»¤
 	public enum CreateMes{Reg, Reg407, UnReg, JSonMesOK, JSonMesSend, JSonAffirm, Invite,
 						  Trying, Ringing, InviteOK, ACK, BYE, BYEOK, UPDATE, UPDATEOK};
-	public UnRegistrar(String clientAddr, String serviceAddr, int servicePort) //¹¹Ôìº¯Êı
+	public UnRegistrar(String clientAddr, String serviceAddr, int servicePort) //æ„é€ å‡½æ•°
 	{
 		serverHost = serviceAddr;
 		addr = clientAddr;
 		Uri = "sip:"+ serviceAddr + ":" + servicePort;
 		this.serverPort = servicePort;
 	}
-	//calleePhone -->ÊÇ±»ºô½Ğ¿Í»§¶ËÊÖ»úºÅ  AudioPort -->ÊÇºô½ĞÒôÆµµÄ¶Ë¿Ú  VideoPort -->ÊÇÊÓÆµ¶Ë¿Ú
+	//calleePhone -->æ˜¯è¢«å‘¼å«å®¢æˆ·ç«¯æ‰‹æœºå·  AudioPort -->æ˜¯å‘¼å«éŸ³é¢‘çš„ç«¯å£  VideoPort -->æ˜¯è§†é¢‘ç«¯å£
 	public int action(String info, String port, int delay, Command com, String calleePhone, int AudioPort,int VideoPort) throws Throwable
 	{
 		this.calleePhone = calleePhone;
@@ -126,36 +126,36 @@ public class UnRegistrar
 		this.VideoPort = VideoPort;
 		return action(info, port, delay, com);
 	}
-	//calleePhone -->ÊÇ±»ºô½Ğ¿Í»§¶ËÊÖ»úºÅ  AudioPort -->ÊÇºô½ĞÒôÆµµÄ¶Ë¿Ú
+	//calleePhone -->æ˜¯è¢«å‘¼å«å®¢æˆ·ç«¯æ‰‹æœºå·  AudioPort -->æ˜¯å‘¼å«éŸ³é¢‘çš„ç«¯å£
 	public int action(String info, String port, int delay, Command com, String calleePhone, int AudioPort) throws Throwable
 	{
 		this.calleePhone = calleePhone;
 		this.AudioPort = AudioPort;
 		return action(info, port, delay, com);
 	}
-	//delay_Share-->ÑÓÊ±ÖØ·¢regµÄÊ±¼ä£¬revcount-->½ÓÊÕµ½¶àÉÙ´ÎjsonÏûÏ¢¶ø½áÊøµÄ´ÎÊı
-	public int action(String info, String port, int delay, Command com, int delay_Share, int revcount) throws Throwable //FpreShare²âÊÔ
+	//delay_Share-->å»¶æ—¶é‡å‘regçš„æ—¶é—´ï¼Œrevcount-->æ¥æ”¶åˆ°å¤šå°‘æ¬¡jsonæ¶ˆæ¯è€Œç»“æŸçš„æ¬¡æ•°
+	public int action(String info, String port, int delay, Command com, int delay_Share, int revcount) throws Throwable //FpreShareæµ‹è¯•
 	{
 		ShareDelay = delay_Share;
 		ShareCount = revcount;
 		return action(info, port, delay, com);
 	}
-	//delay_UnReg-->ÑÓÊ±·¢ËÍUnRegÏûÏ¢µÄÊ±¼ä£¬ÒÔ±ãÓÚ¹Û²ì
-	public int action(String info, String port, int delay, Command com, int delay_UnReg) throws Throwable //UnReg²âÊÔ
+	//delay_UnReg-->å»¶æ—¶å‘é€UnRegæ¶ˆæ¯çš„æ—¶é—´ï¼Œä»¥ä¾¿äºè§‚å¯Ÿ
+	public int action(String info, String port, int delay, Command com, int delay_UnReg) throws Throwable //UnRegæµ‹è¯•
 	{
 		UnDelay = delay_UnReg;
 		return action(info, port, delay, com);
 	}
 	
-	public int action(String info, String port, Command com) throws Throwable //·¢ËÍjsonÏûÏ¢
+	public int action(String info, String port, Command com) throws Throwable //å‘é€jsonæ¶ˆæ¯
 	{
-		//ÊÕ²»µ½200OK,10ÃëºóÖØ·¢jsonÏûÏ¢
-		return action(info+";1", port, 10000, com); //¹¹Ôì³öÏÂÃæactionĞèÒªÓÃµ½µÄ²ÎÊı,·¢ËÍjsonÏûÏ¢£¬ÓÃ²»µ½ÕâÃ´¶àĞÅÏ¢
+		//æ”¶ä¸åˆ°200OK,10ç§’åé‡å‘jsonæ¶ˆæ¯
+		return action(info+";1", port, 10000, com); //æ„é€ å‡ºä¸‹é¢actionéœ€è¦ç”¨åˆ°çš„å‚æ•°,å‘é€jsonæ¶ˆæ¯ï¼Œç”¨ä¸åˆ°è¿™ä¹ˆå¤šä¿¡æ¯
 	}
-	//delay -->½ÓÊÕ418ÏûÏ¢£¬ÖØ·¢regÏûÏ¢µÄÑÓÊ±Ê±¼ä
-	public int action(String info, String port, int delay, Command com) throws Throwable //·¢ËÍjsonÏûÏ¢
+	//delay -->æ¥æ”¶418æ¶ˆæ¯ï¼Œé‡å‘regæ¶ˆæ¯çš„å»¶æ—¶æ—¶é—´
+	public int action(String info, String port, int delay, Command com) throws Throwable //å‘é€jsonæ¶ˆæ¯
 	{
-		// ¿Í»§µÄÓÃ»§ÃûºÍÃÜÂëĞÅÏ¢
+		// å®¢æˆ·çš„ç”¨æˆ·åå’Œå¯†ç ä¿¡æ¯
 		userinfo = info;
 		
 		int n = userinfo.indexOf(";");
@@ -164,17 +164,17 @@ public class UnRegistrar
 		passwd = userinfo.substring(n + 1, userinfo.length());
 		localPort= port;
 
-		int clientPort=Integer.parseInt(localPort); //»ñÈ¡¿Í»§¶Ë¶Ë¿ÚºÅ
+		int clientPort=Integer.parseInt(localPort); //è·å–å®¢æˆ·ç«¯ç«¯å£å·
 		serverAddr = InetAddress.getByName(serverHost);
 				
 		client=new DatagramSocket(clientPort);
-		client.setSoTimeout(TIMEOUT);//ÉèÖÃ³¬Ê±Ê±¼ä
+		client.setSoTimeout(TIMEOUT);//è®¾ç½®è¶…æ—¶æ—¶é—´
 
-		Delay = delay; //ÑÓÊ±²ÎÊı
+		Delay = delay; //å»¶æ—¶å‚æ•°
 		record = com;
 		switch(com)
 		{
-			case UnRegistrar://Ïò·şÎñÆ÷·¢ËÍ×¢ÏúÏûÏ¢
+			case UnRegistrar://å‘æœåŠ¡å™¨å‘é€æ³¨é”€æ¶ˆæ¯
 				sendUnReg();
 				break;
 			case Registrar:
@@ -211,8 +211,8 @@ public class UnRegistrar
 		         flag = true; 
 		     	}
 		     };
-		 timer.schedule(task, new Date(),UpdataDelay);//µ±Ç°Ê±¼ä¿ªÊ¼Æğ¶¯ Ã¿´Î¼ä¸ô2ÃëÔÙÆô¶¯
-		 // timer.scheduleAtFixedRate(task, 1000,2000); // 1ÃëºóÆô¶¯  Ã¿´Î¼ä¸ô2ÃëÔÙÆô¶¯                 
+		 timer.schedule(task, new Date(),UpdataDelay);//å½“å‰æ—¶é—´å¼€å§‹èµ·åŠ¨ æ¯æ¬¡é—´éš”2ç§’å†å¯åŠ¨
+		 // timer.scheduleAtFixedRate(task, 1000,2000); // 1ç§’åå¯åŠ¨  æ¯æ¬¡é—´éš”2ç§’å†å¯åŠ¨                 
 	 }
 	public void CallerMes()
 	{
@@ -220,7 +220,7 @@ public class UnRegistrar
 		CallStart(record);
 		StartAudioClient();
 		StartVideoClient();
-		ShareDelay = 60000; //80ÃëÖØ·¢Reg 90sÖØ·¢Update
+		ShareDelay = 60000; //80ç§’é‡å‘Reg 90sé‡å‘Update
 		UpdataDelay = 100000;
 		startRun();
 		startUpdata();
@@ -228,13 +228,13 @@ public class UnRegistrar
 		{
 			if(TIMEUP)
 			{
-				sendrecvMessage(creatMeassage(CreateMes.Reg407), State.OK200);//ÔÙ´Î·¢ËÍ×¢²áÏûÏ¢
+				sendrecvMessage(creatMeassage(CreateMes.Reg407), State.OK200);//å†æ¬¡å‘é€æ³¨å†Œæ¶ˆæ¯
 				TIMEUP = false;
 			}
 			if(StartUpdata)
 			{
 				endflag++;
-				if(endflag >= 40) //1¸öĞ¡Ê±
+				if(endflag >= 40) //1ä¸ªå°æ—¶
 				{
 					break;
 				}
@@ -255,7 +255,7 @@ public class UnRegistrar
 			sendAudioData();
 			receiveVideoData();
 			sendVideoData();
-			/*ÑÓÊ±20ºÁÃë·¢Ò»´ÎAudioData*/
+			/*å»¶æ—¶20æ¯«ç§’å‘ä¸€æ¬¡AudioData*/
 			try {
 				Thread.sleep(15);
 			} catch (InterruptedException e) {
@@ -276,7 +276,7 @@ public class UnRegistrar
 			{
 				break;
 			}
-			/*ÑÓÊ±2000ºÁÃë·¢Ò»´ÎAudioData*/
+			/*å»¶æ—¶2000æ¯«ç§’å‘ä¸€æ¬¡AudioData*/
 			try {
 				Thread.sleep(2000);
 			} catch (InterruptedException e) {
@@ -287,17 +287,17 @@ public class UnRegistrar
 		RcvPackToFile(AudioPort+":"+AudioPackageNum+"  "+ VideoPort+":"+VideoPackageNum+"\r\n", "C:\\log\\logSendPack.txt");
 		RcvPackToFile(AudioPort+":"+AudioPackageNumrev+"  "+VideoPort+":"+VideoPackageNumrev+"\r\n", "C:\\log\\logRcvPack.txt");
 	}
-	/*Í¨Ñ¶¿ªÊ¼½×¶Î*/
+	/*é€šè®¯å¼€å§‹é˜¶æ®µ*/
 	public void CallStart(Command com)
 	{
 		switch(com)
 		{
 			case Caller:
-					/*·¢ËÍ×¢²áÏûÏ¢*/
+					/*å‘é€æ³¨å†Œæ¶ˆæ¯*/
 					sendReg();
-					/*·¢ËÍInviteÏûÏ¢*/
+					/*å‘é€Inviteæ¶ˆæ¯*/
 					sendrecvMessage(creatMeassage(CreateMes.Invite), State.Trying);
-					/*µÈ´ı½ÓÊÕ200OK*/
+					/*ç­‰å¾…æ¥æ”¶200OK*/
 					while(true)
 					{
 						String Mes = receiveMessage();
@@ -310,31 +310,31 @@ public class UnRegistrar
 							ACK_Call = getCallID(Mes);
 							SAudioPort = Integer.parseInt(getRTPPort("m=audio", Mes));
 							SVideoPort = Integer.parseInt(getRTPPort("m=video", Mes));
-							/*·¢ËÍACKÏûÏ¢*/
+							/*å‘é€ACKæ¶ˆæ¯*/
 							sendMessage(creatMeassage(CreateMes.ACK));
 							break;
 						}
 					}
 					break;
 				case Callee:
-					/*·¢ËÍ×¢²áÏûÏ¢*/
+					/*å‘é€æ³¨å†Œæ¶ˆæ¯*/
 					sendReg();
 					while(true)
 					{
-						/*½ÓÊÕInviteÏûÏ¢*/
+						/*æ¥æ”¶Inviteæ¶ˆæ¯*/
 						String Mes = receiveMessage();
 						if(Mes.contains(keytext[State.Invite.ordinal()]))
 						{
 							SAudioPort = Integer.parseInt(getRTPPort("m=audio", Mes));
 							SVideoPort = Integer.parseInt(getRTPPort("m=video", Mes));
-							/*·¢ËÍTryingÏûÏ¢*/
+							/*å‘é€Tryingæ¶ˆæ¯*/
 							TryHeader = getParam(Mes);
 							sendMessage(creatMeassage(CreateMes.Trying));
-							/*Éú³ÉĞÂµÄtag¸ø180ºÍ200OKÊ¹ÓÃ*/
+							/*ç”Ÿæˆæ–°çš„tagç»™180å’Œ200OKä½¿ç”¨*/
 							CalleeTag = (int)((Math.random()*9+1)*100000000);
-							/*·¢ËÍ180Ringing*/
+							/*å‘é€180Ringing*/
 							sendMessage(creatMeassage(CreateMes.Ringing));
-							/*·¢ËÍ200OK*/
+							/*å‘é€200OK*/
 							sendMessage(creatMeassage(CreateMes.InviteOK));
 							break;
 						}
@@ -347,7 +347,7 @@ public class UnRegistrar
 	{
 		try {
 			AudioClient=new DatagramSocket(AudioPort);
-			AudioClient.setSoTimeout(TIMEOUT);//ÉèÖÃ³¬Ê±Ê±¼ä
+			AudioClient.setSoTimeout(TIMEOUT);//è®¾ç½®è¶…æ—¶æ—¶é—´
 		} catch (SocketException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -357,7 +357,7 @@ public class UnRegistrar
 	{
 		try {
 			VideoClient=new DatagramSocket(VideoPort);
-			VideoClient.setSoTimeout(TIMEOUT);//ÉèÖÃ³¬Ê±Ê±¼ä
+			VideoClient.setSoTimeout(TIMEOUT);//è®¾ç½®è¶…æ—¶æ—¶é—´
 		} catch (SocketException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -365,7 +365,7 @@ public class UnRegistrar
 	}
 	public byte[] createVideoData(short seq, int times)
 	{
-		/*½«IntÀàĞÍÊı¾İ×ª»»³ÉÍøÂç×Ö½ÚĞò*/
+		/*å°†Intç±»å‹æ•°æ®è½¬æ¢æˆç½‘ç»œå­—èŠ‚åº*/
 		int temp = times;  
 		  byte[] b = new byte[4];  
 		  for (int i = b.length - 1; i > -1; i--) 
@@ -376,7 +376,7 @@ public class UnRegistrar
 		byte[] VideoBuf = new byte[VideoDataLen];
 		VideoBuf[0] = (byte) 0x80;
 		VideoBuf[1] = (byte) 0xe1;
-		VideoBuf[2] = (byte) (seq >> 8 & 0xff); //½«shortÀàĞÍµÄÊı¾İ×ª»»³ÉÍøÂç×Ö½ÚĞò
+		VideoBuf[2] = (byte) (seq >> 8 & 0xff); //å°†shortç±»å‹çš„æ•°æ®è½¬æ¢æˆç½‘ç»œå­—èŠ‚åº
 		VideoBuf[3] = (byte) (seq & 0xff);
 		VideoBuf[4] = b[0];
 		VideoBuf[5] = b[1];
@@ -400,7 +400,7 @@ public class UnRegistrar
 			VideoClient.send(sendPacket);
 			VideoPackageNum++;
 			VideoSeq++;
-			if(VideoSeq % 6 == 1) //Ã¿6¸ö¾ÍÊÇÒ»Ö¡£¬¼Ó9000
+			if(VideoSeq % 6 == 1) //æ¯6ä¸ªå°±æ˜¯ä¸€å¸§ï¼ŒåŠ 9000
 				VideoTimes += 9000;
 		}catch(Exception e){
 			e.printStackTrace();
@@ -420,7 +420,7 @@ public class UnRegistrar
 	}
 	public byte[] createAudioData(short seq, int times)
 	{
-		/*½«IntÀàĞÍÊı¾İ×ª»»³ÉÍøÂç×Ö½ÚĞò*/
+		/*å°†Intç±»å‹æ•°æ®è½¬æ¢æˆç½‘ç»œå­—èŠ‚åº*/
 		int temp = times;  
 		  byte[] b = new byte[4];  
 		  for (int i = b.length - 1; i > -1; i--) 
@@ -431,7 +431,7 @@ public class UnRegistrar
 		byte[] AudioBuf = new byte[AudioDataLen];
 		AudioBuf[0] = (byte) 0x80;
 		AudioBuf[1] = (byte) 0xe2;
-		AudioBuf[2] = (byte) (seq >> 8 & 0xff); //½«shortÀàĞÍµÄÊı¾İ×ª»»³ÉÍøÂç×Ö½ÚĞò
+		AudioBuf[2] = (byte) (seq >> 8 & 0xff); //å°†shortç±»å‹çš„æ•°æ®è½¬æ¢æˆç½‘ç»œå­—èŠ‚åº
 		AudioBuf[3] = (byte) (seq & 0xff);
 		AudioBuf[4] = b[0];
 		AudioBuf[5] = b[1];
@@ -478,7 +478,7 @@ public class UnRegistrar
 		CallStart(record);
 		StartAudioClient();
 		StartVideoClient();
-		ShareDelay = 60000; //80ÃëÖØ·¢Reg 
+		ShareDelay = 60000; //80ç§’é‡å‘Reg 
 		UpdataDelay = 100000;
 		startRun();
 		try {
@@ -486,7 +486,7 @@ public class UnRegistrar
 		} catch (SocketException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		}//ÉèÖÃ³¬Ê±Ê±¼ä
+		}//è®¾ç½®è¶…æ—¶æ—¶é—´
 		while(endwhile)
 		{
 			if(TIMEUP)
@@ -496,39 +496,39 @@ public class UnRegistrar
 				} catch (SocketException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
-				}//ÉèÖÃ³¬Ê±Ê±¼ä
-				sendrecvMessage(creatMeassage(CreateMes.Reg407), State.OK200);//ÔÙ´Î·¢ËÍ×¢²áÏûÏ¢
+				}//è®¾ç½®è¶…æ—¶æ—¶é—´
+				sendrecvMessage(creatMeassage(CreateMes.Reg407), State.OK200);//å†æ¬¡å‘é€æ³¨å†Œæ¶ˆæ¯
 				TIMEUP = false;
 				try {
 					client.setSoTimeout(15);
 				} catch (SocketException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
-				}//ÉèÖÃ³¬Ê±Ê±¼ä
+				}//è®¾ç½®è¶…æ—¶æ—¶é—´
 			}
 			receiveAudioData();
 			sendAudioData();
-			receiveVideoData(); //·¢ËÍÒôÆµÊı¾İ
+			receiveVideoData(); //å‘é€éŸ³é¢‘æ•°æ®
 			sendVideoData();
 			String Mes = receiveMessage();
 			if(Mes.contains(keytext[State.UPDATE.ordinal()]))
 			{
 				int j = Mes.indexOf("Via");
 				int i = Mes.indexOf("Call");
-				mesok = Mes.substring(j, i); //-->Éú³ÉUPDATEOKÓÃ
-				/*·¢ËÍUPDATEOK*/
+				mesok = Mes.substring(j, i); //-->ç”ŸæˆUPDATEOKç”¨
+				/*å‘é€UPDATEOK*/
 				sendMessage(creatMeassage(CreateMes.UPDATEOK));	
 			}
 			else if(Mes.contains(keytext[State.BYE.ordinal()]))
 			{
-				//ÓÃÓÚ²¶×½¹Ø¼üÄÚÈİµÄ´úÂë
+				//ç”¨äºæ•æ‰å…³é”®å†…å®¹çš„ä»£ç 
 			    int i = Mes.indexOf("Via");
 			    int j = Mes.indexOf("Route");
 			    ByeOK_Via = Mes.substring(i, j);
 			    String []sp = Mes.split("To");
 			    i = sp[1].indexOf("tag");
 			    ByeOK_tag2 = sp[1].substring(i + 4, i + 13);
-			    //·¢ËÍ200OK
+			    //å‘é€200OK
 				sendMessage(creatMeassage(CreateMes.BYEOK));
 				break;
 			}
@@ -536,7 +536,7 @@ public class UnRegistrar
 		RcvPackToFile(AudioPort+":"+AudioPackageNum+"  "+ VideoPort+":"+VideoPackageNum+"\r\n", "C:\\log\\logSendPack.txt");
 		RcvPackToFile(AudioPort+":"+AudioPackageNumrev+"  "+VideoPort+":"+VideoPackageNumrev+"\r\n", "C:\\log\\logRcvPack.txt");
 	}
-	/*SIP sdpÏûÏ¢Éú³É*/
+	/*SIP sdpæ¶ˆæ¯ç”Ÿæˆ*/
 	public String createSdp()
 	{
 		String Str = "v=0\r\n"
@@ -551,15 +551,15 @@ public class UnRegistrar
 				+ "a=rtpmap:101 telephone-event/8000\r\n"
 				+ "a=fmtp:101 0-11\r\n"
 				+ "a=sendrecv\r\n"
-		/*ÕâÊÇÊÓÆµ²âÊÔËùĞèÒª¼ÓµÄ£¬Ö»²âÊÔÒôÆµ¿ÉÒÔ×¢ÊÍµô*/
+		/*è¿™æ˜¯è§†é¢‘æµ‹è¯•æ‰€éœ€è¦åŠ çš„ï¼Œåªæµ‹è¯•éŸ³é¢‘å¯ä»¥æ³¨é‡Šæ‰*/
 				+ "m=video "+VideoPort+" RTP/AVP 99\r\n"
 				+ "a=rtpmap:99 H264/90000\r\n"
 				+ "a=sendrecv\r\n";
 		return Str;
 	}
-	/*»ñÈ¡invite200OKÏûÏ¢µÄÍ·²¿ĞÅÏ¢£¬ÓÃÀ´Éú³ÉACK
+	/*è·å–invite200OKæ¶ˆæ¯çš„å¤´éƒ¨ä¿¡æ¯ï¼Œç”¨æ¥ç”ŸæˆACK
 	*/
-	/*»ñÈ¡fromÓòÖĞµÄtagÊı×ÖĞÅÏ¢*/
+	/*è·å–fromåŸŸä¸­çš„tagæ•°å­—ä¿¡æ¯*/
 	public String getTag(String first, String second, String revStr){
 	     String TT="";
 		try{
@@ -571,7 +571,7 @@ public class UnRegistrar
 		}catch(Exception e){}
 		return TT;
 	}
-	//»ñÈ¡±»½ĞÓÃ»§µÄsocketĞÅÏ¢
+	//è·å–è¢«å«ç”¨æˆ·çš„socketä¿¡æ¯
 	public String getCalleeSokert(String revStr)
 	{
 		String sk="";
@@ -584,35 +584,35 @@ public class UnRegistrar
 		}catch(Exception e){}
 		return sk;
 	}
-	/*»ñÈ¡ÒôÆµºÍÊÓÆµ½ÓÊÕ¶Ë¿Úº¯Êı*/
+	/*è·å–éŸ³é¢‘å’Œè§†é¢‘æ¥æ”¶ç«¯å£å‡½æ•°*/
 	public String getRTPPort(String des, String revStr)
 	{
 		int i = revStr.indexOf(des);
 		return revStr.substring(i + 8, i + 13);
 	}
-	/*»ñÈ¡inviteÏûÏ¢µÄÍ·²¿ĞÅÏ¢£¬ÓÃÀ´Éú³É100Trying
+	/*è·å–inviteæ¶ˆæ¯çš„å¤´éƒ¨ä¿¡æ¯ï¼Œç”¨æ¥ç”Ÿæˆ100Trying
 	*/
 	public String getParam(String revStr)
 	{
 		String Trying, Record,Header; 
 		int j = revStr.indexOf("Via");
 		int i = revStr.indexOf("Call");
-		mesok =  revStr.substring(j, i - 2); //-->Éú³É180RingingÓÃ
-		Call = getCallID(revStr); //-->Éú³É180RingingÓÃ
+		mesok =  revStr.substring(j, i - 2); //-->ç”Ÿæˆ180Ringingç”¨
+		Call = getCallID(revStr); //-->ç”Ÿæˆ180Ringingç”¨
 		int z = revStr.indexOf("CSeq");
-		Trying = revStr.substring(j, z);//½ØÈ¡µ½CSeq
+		Trying = revStr.substring(j, z);//æˆªå–åˆ°CSeq
 		j = Trying.indexOf("Record");
 		z = Trying.indexOf("From");
 		i = Trying.indexOf("Call");
 		Record = Trying.substring(j, z);
 		Header = Trying.replaceAll(Record, "");
-		FromTo = Trying.substring(z, i - 2); //-->ÓÃÓÚÉú³ÉbyeOKÊ¹ÓÃ
+		FromTo = Trying.substring(z, i - 2); //-->ç”¨äºç”ŸæˆbyeOKä½¿ç”¨
 
 		return Header;
 	}
 	public String createJsonMsg()
 	{
-		/*Éú³Éjson´®*/
+		/*ç”Ÿæˆjsonä¸²*/
 		JSONObject obj = new JSONObject();
 		try{
 		obj.put("xd_name", Phone);
@@ -624,9 +624,9 @@ public class UnRegistrar
 		obj.put("time", "2017-06-25 19:27:23");
 		obj.put("xd_oper", 20);
 		
-		//jsonÊı×é---text
+		//jsonæ•°ç»„---text
 		JSONArray txt = new JSONArray();
-		//json text¶ÔÏó
+		//json textå¯¹è±¡
 		JSONObject text1 = new JSONObject();
 		text1.put("text", "1111122323zhonggg1111122323zhonggg1111122323zhonggg11111223231111122323zhonggg");
 		JSONObject text2 = new JSONObject();
@@ -639,9 +639,9 @@ public class UnRegistrar
 		//txt.put(text3);
 		obj.put("text_list", txt);
 		
-		//jsonÊı×é---link
+		//jsonæ•°ç»„---link
 		JSONArray link = new JSONArray();
-		//json link¶ÔÏó
+		//json linkå¯¹è±¡
 		JSONObject link1 = new JSONObject();
 		link1.put("link", "www.baidu.comzhongguozhongguo1111111111111122323zhonggg");
 		JSONObject link2 = new JSONObject();
@@ -655,9 +655,9 @@ public class UnRegistrar
 		
 		obj.put("link_list", link);
 		
-		//jsonÊı×é---pic
+		//jsonæ•°ç»„---pic
 		JSONArray pic = new JSONArray();
-		//json pic¶ÔÏó
+		//json picå¯¹è±¡
 		JSONObject pic1 = new JSONObject();
 		pic1.put("pic", "100001111111111111zhongguozhongguo.png");
 		JSONObject pic2 = new JSONObject();
@@ -689,10 +689,10 @@ public class UnRegistrar
 		
 		
 		obj.put("pic_list", pic);
-		//jsonÊı×é---video
+		//jsonæ•°ç»„---video
 		 
 		JSONArray video = new JSONArray();
-		//json video¶ÔÏó
+		//json videoå¯¹è±¡
 		JSONObject video1 = new JSONObject();
 		video1.put("pic", "200001zhongguozhong.MP4");
 		JSONObject video2 = new JSONObject();
@@ -709,7 +709,7 @@ public class UnRegistrar
 		
 		obj.put("video_list", video);
 		
-		//movieÃèÊöĞÅÏ¢¶ÔÏó
+		//movieæè¿°ä¿¡æ¯å¯¹è±¡
 		JSONObject movieobj = new JSONObject();
 		movieobj.put("clip_name", "1111122323zhonggg");
 		movieobj.put("clip_avail", 1);
@@ -724,14 +724,14 @@ public class UnRegistrar
 		}
 		return obj.toString();
 	}
-	//·¢ËÍ¹²ÏíÏûÏ¢
+	//å‘é€å…±äº«æ¶ˆæ¯
 	public String sendShareMes() throws JSONException
 	{	
-		strSSM = creatMeassage(CreateMes.JSonMesSend);//×Ü³¤¶È1024×Ö½Ú
+		strSSM = creatMeassage(CreateMes.JSonMesSend);//æ€»é•¿åº¦1024å­—èŠ‚
 		String revstr = sendrecvMessage(strSSM, State.OK200);
 		return null;
 	}
-	/*¶¨Ê±100s·¢ËÍ×¢²áÏûÏ¢*/
+	/*å®šæ—¶100så‘é€æ³¨å†Œæ¶ˆæ¯*/
 	 protected  static void startRun()
 	 {
 		 Timer timer = new Timer();
@@ -739,32 +739,32 @@ public class UnRegistrar
 			 boolean flag = false;
 		     public void run(){
 		    	 if(flag)
-		    		 UnRegistrar.TIMEUP = true;//¼ÆÊ±Ê±¼äµ½
+		    		 UnRegistrar.TIMEUP = true;//è®¡æ—¶æ—¶é—´åˆ°
 		         flag = true; 
 		     	}
 		     };
-		 timer.schedule(task, new Date(),ShareDelay);//µ±Ç°Ê±¼ä¿ªÊ¼Æğ¶¯ Ã¿´Î¼ä¸ô2ÃëÔÙÆô¶¯
-		 // timer.scheduleAtFixedRate(task, 1000,2000); // 1ÃëºóÆô¶¯  Ã¿´Î¼ä¸ô2ÃëÔÙÆô¶¯                 
+		 timer.schedule(task, new Date(),ShareDelay);//å½“å‰æ—¶é—´å¼€å§‹èµ·åŠ¨ æ¯æ¬¡é—´éš”2ç§’å†å¯åŠ¨
+		 // timer.scheduleAtFixedRate(task, 1000,2000); // 1ç§’åå¯åŠ¨  æ¯æ¬¡é—´éš”2ç§’å†å¯åŠ¨                 
 	 }
 	public void revSharedMes()
 	{
-		 sendReg();//·¢ËÍ×¢²áÏûÏ¢
+		 sendReg();//å‘é€æ³¨å†Œæ¶ˆæ¯
 		 startRun();
 		 while(ShareCount > 0)
 		 {
 			 if(TIMEUP)
 			 {
-				 sendrecvMessage(creatMeassage(CreateMes.Reg407), State.OK200);//ÔÙ´Î·¢ËÍ×¢²áÏûÏ¢
+				 sendrecvMessage(creatMeassage(CreateMes.Reg407), State.OK200);//å†æ¬¡å‘é€æ³¨å†Œæ¶ˆæ¯
 				 TIMEUP = false;
 			 }
 			 
 			String jsonMes = receiveMessage();
 			if(jsonMes.contains(keytext[State.Text.ordinal()]))
 			{
-				//½ØÈ¡ÏûÏ¢£¬Ò»±éºóĞøÉú³É200OKÏûÏ¢»Ø·¢¸øfpre
+				//æˆªå–æ¶ˆæ¯ï¼Œä¸€éåç»­ç”Ÿæˆ200OKæ¶ˆæ¯å›å‘ç»™fpre
 				int j = jsonMes.indexOf("Via");
 				int z = jsonMes.indexOf("Call");
-				mesok = jsonMes.substring(j, z - 2);//½ØÈ¡µ½Call-IDºóÃæÁ½Î»(\r\n)
+				mesok = jsonMes.substring(j, z - 2);//æˆªå–åˆ°Call-IDåé¢ä¸¤ä½(\r\n)
 				int i = jsonMes.indexOf("xd_name");
 				xd_name = jsonMes.substring(i + 11, i + 17);
 				i = jsonMes.indexOf("user");
@@ -773,7 +773,7 @@ public class UnRegistrar
 				xdopertmp = getxd_oper(jsonMes);
 				Call = getCallID(jsonMes);
 				CseqStr = getCSeq(jsonMes);
-				//ÕıÔò±í´ïÊ½£¬Æ¥Åä³öseqµÄÖµ
+				//æ­£åˆ™è¡¨è¾¾å¼ï¼ŒåŒ¹é…å‡ºseqçš„å€¼
 				String regEx="[^0-9]";   
 				Pattern p = Pattern.compile(regEx);   
 				Matcher m = p.matcher(CseqStr);
@@ -805,7 +805,7 @@ public class UnRegistrar
 			}
 		 }
 	}
-	/*ÏÂÃæÈı¸öº¯ÊıÊÇ²âÊÔjsonÏûÏ¢Ê±ÓÃ*/
+	/*ä¸‹é¢ä¸‰ä¸ªå‡½æ•°æ˜¯æµ‹è¯•jsonæ¶ˆæ¯æ—¶ç”¨*/
 	String getxd_oper(String str)
 	{
 		String oper="";
@@ -837,11 +837,11 @@ public class UnRegistrar
 		}catch(Exception e){}
 		return Cseq;
 	}
-	/*Éú³Éxd_oper=4µÄjsonÏûÏ¢*/
+	/*ç”Ÿæˆxd_oper=4çš„jsonæ¶ˆæ¯*/
 	public String createAdminRespond()
 	{
 
-		/*Éú³Éjson´®*/
+		/*ç”Ÿæˆjsonä¸²*/
 		JSONObject obj = new JSONObject();
 		try {
 			obj.put("xd_oper", 4);
@@ -855,10 +855,10 @@ public class UnRegistrar
 		}
 		return obj.toString();
 	}
-	/*Ïòfpre·¢ËÍÈ·ÈÏÓÃ»§Ìí¼ÓµÄÏûÏ¢*/
+	/*å‘fpreå‘é€ç¡®è®¤ç”¨æˆ·æ·»åŠ çš„æ¶ˆæ¯*/
 	public void sendAdminRespond() throws JSONException
 	{
-		/*±£´æÖ®Ç°µÄÊı¾İ*/
+		/*ä¿å­˜ä¹‹å‰çš„æ•°æ®*/
 		String Hosttmp = serverHost;
 		int Porttmp = serverPort;
 		serverHost = "192.168.10.6";
@@ -872,7 +872,7 @@ public class UnRegistrar
 		}
 		strSSM = creatMeassage(CreateMes.JSonAffirm);
 		sendrecvMessage(strSSM, State.OK200);
-		/*»Ö¸´Êı¾İ*/
+		/*æ¢å¤æ•°æ®*/
 		serverHost = Hosttmp;
 		serverPort = Porttmp;
 		try {
@@ -885,7 +885,7 @@ public class UnRegistrar
 	}
 	public void sendAffirmRespond() throws JSONException
 	{
-		/*Éú³Éjson´®*/
+		/*ç”Ÿæˆjsonä¸²*/
 		JSONObject obj = new JSONObject();
 		obj.put("xd_oper", 103);
 		obj.put("xd_name", xd_name);
@@ -893,12 +893,12 @@ public class UnRegistrar
 		
 		jsonshare = obj.toString();
 		String strSSQ = creatMeassage(CreateMes.JSonMesOK);
-		sendMessage(strSSQ);//·¢ËÍ»ØÓ¦jsonÏûÏ¢
+		sendMessage(strSSQ);//å‘é€å›åº”jsonæ¶ˆæ¯
 		
 	}
 	public void sendInformRespond() throws JSONException
 	{
-		/*Éú³Éjson´®*/
+		/*ç”Ÿæˆjsonä¸²*/
 		JSONObject obj = new JSONObject();
 		obj.put("xd_oper", 105);
 		obj.put("xd_name", xd_name);
@@ -907,12 +907,12 @@ public class UnRegistrar
 		
 		jsonshare = obj.toString();
 		String strSSQ = creatMeassage(CreateMes.JSonMesOK);
-		sendMessage(strSSQ);//·¢ËÍ»ØÓ¦jsonÏûÏ¢
+		sendMessage(strSSQ);//å‘é€å›åº”jsonæ¶ˆæ¯
 		
 	}
 	public void sendSharedRespond() throws JSONException
 	{
-		/*Éú³Éjson´®*/
+		/*ç”Ÿæˆjsonä¸²*/
 		JSONObject obj = new JSONObject();
 		obj.put("xd_oper", 120);
 		obj.put("xd_name", xd_name);
@@ -922,7 +922,7 @@ public class UnRegistrar
 		
 		jsonshare = obj.toString();
 		String strSSQ = creatMeassage(CreateMes.JSonMesOK);
-		sendMessage(strSSQ);//·¢ËÍ»ØÓ¦jsonÏûÏ¢
+		sendMessage(strSSQ);//å‘é€å›åº”jsonæ¶ˆæ¯
 		
 	}
 	public void sendUnReg()
@@ -933,26 +933,26 @@ public class UnRegistrar
 		} catch (InterruptedException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		} //ÑÓÊ±²ÎÊı
-		logToFile("Ïò·şÎñÆ÷·¢ËÍ×¢ÏúÏûÏ¢\r\n");
+		} //å»¶æ—¶å‚æ•°
+		logToFile("å‘æœåŠ¡å™¨å‘é€æ³¨é”€æ¶ˆæ¯\r\n");
 		String str3 = creatMeassage(CreateMes.UnReg);
-		sendrecvMessage(str3, State.OK200); //·¢ËÍ×¢ÏúÏûÏ¢²¢½ÓÊÕ200OK
+		sendrecvMessage(str3, State.OK200); //å‘é€æ³¨é”€æ¶ˆæ¯å¹¶æ¥æ”¶200OK
 	}
 
 	public void sendReg()
 	{
-		//·¢ËÍÖ÷×¢²áÏûÏ¢£¬²¢½ÓÊÕ407¼øÈ¨
-		logToFile("Ïò·şÎñÆ÷·¢ËÍ×¢²áÏûÏ¢\r\n");
+		//å‘é€ä¸»æ³¨å†Œæ¶ˆæ¯ï¼Œå¹¶æ¥æ”¶407é‰´æƒ
+		logToFile("å‘æœåŠ¡å™¨å‘é€æ³¨å†Œæ¶ˆæ¯\r\n");
 		String str1 = creatMeassage(CreateMes.Reg);
 		String recvStr1 = sendrecvMessage(str1, State.Reg407);
-	    //MD5¼ÓÃÜËã·¨
+	    //MD5åŠ å¯†ç®—æ³•
 	  	int i = recvStr1.indexOf("nonce=");
 	  	Nonce = recvStr1.substring(i + 7, i + 47);
 	   
-		logToFile("Ïò·şÎñÆ÷·¢ËÍ407¼øÈ¨\r\n");
+		logToFile("å‘æœåŠ¡å™¨å‘é€407é‰´æƒ\r\n");
 		String str2 = creatMeassage(CreateMes.Reg407);
-		Mes407 = str2;//±£´æ407ÏûÏ¢£¬ÒÔ±ãºóĞøÖØ·¢regÊ¹ÓÃ
-		sendrecvMessage(str2, State.OK200); //·¢ËÍ407¼øÈ¨²¢½ÓÊÕ200OK
+		Mes407 = str2;//ä¿å­˜407æ¶ˆæ¯ï¼Œä»¥ä¾¿åç»­é‡å‘regä½¿ç”¨
+		sendrecvMessage(str2, State.OK200); //å‘é€407é‰´æƒå¹¶æ¥æ”¶200OK
 	}
 	
 	public void sendInvite()
@@ -970,7 +970,7 @@ public class UnRegistrar
 		switch(mes)
 		{
 			case Reg:
-				//·¢ËÍ×¢²áÇëÇó
+				//å‘é€æ³¨å†Œè¯·æ±‚
 				str="REGISTER sip:" + serverHost + ":" + serverPort + " SIP/2.0\r\n"
 					+ "Via: SIP/2.0/UDP " + addr+ ":" + localPort + ";rport;branch=z9hG4bK"+RB+"\r\n"
 					+ "From: \"" + Phone + "\" <sip:" + Phone+ "@" + serverHost + ">;tag="+TagReg+"\r\n"
@@ -985,7 +985,7 @@ public class UnRegistrar
 					+ "Content-Length: 0\r\n\r\n";
 				break;
 			case Reg407:
-				//¸ù¾İMD5¼ÓÃÜËã·¨¼ÆËãresponseÖµ	
+				//æ ¹æ®MD5åŠ å¯†ç®—æ³•è®¡ç®—responseå€¼	
 			  	String ha1 = Phone + ":" + serverHost + ":" + passwd;
 			  	String HA1=MD5.md5(ha1);		
 
@@ -1189,32 +1189,32 @@ public class UnRegistrar
 		return str;
 	}
 	/**
-	   * Õâ¸ö·½·¨·¢ËÍÊı¾İ£¬²¢¸ù¾İ½ÓÊÕµ½µÄÊı¾İ½øĞĞÏàÓ¦µÄ´¦Àí
-	   * @param str: Òª·¢ËÍµÄ×Ö·û´® stat:ĞèÒª½ÓÊÜµÄ×´Ì¬
-	   * @return ·µ»Ø½ÓÊÕµ½µÄÕıÈ·×Ö·û´®
+	   * è¿™ä¸ªæ–¹æ³•å‘é€æ•°æ®ï¼Œå¹¶æ ¹æ®æ¥æ”¶åˆ°çš„æ•°æ®è¿›è¡Œç›¸åº”çš„å¤„ç†
+	   * @param str: è¦å‘é€çš„å­—ç¬¦ä¸² stat:éœ€è¦æ¥å—çš„çŠ¶æ€
+	   * @return è¿”å›æ¥æ”¶åˆ°çš„æ­£ç¡®å­—ç¬¦ä¸²
 	   */
-	//·¢ËÍ²¢½ÓÊÜÏûÏ¢
+	//å‘é€å¹¶æ¥å—æ¶ˆæ¯
 	String sendrecvMessage(String str, State stat)
 	{
-		//·¢ËÍ×¢²áÏûÏ¢
-		int tries = 0;      // Packets¿ÉÄÜ³¬Ê±ÁË»òÕßÊÕµ½µÄÊı¾İ²»·ûºÏ£¬½«ÔÙ´Î³¢ÊÔ,×î¶à³¢ÊÔÎå´Î
+		//å‘é€æ³¨å†Œæ¶ˆæ¯
+		int tries = 0;      // Packetså¯èƒ½è¶…æ—¶äº†æˆ–è€…æ”¶åˆ°çš„æ•°æ®ä¸ç¬¦åˆï¼Œå°†å†æ¬¡å°è¯•,æœ€å¤šå°è¯•äº”æ¬¡
 		boolean receivedResponse = false;  
-		String recvStr="";//½ÓÊÕ×Ö·û´®
+		String recvStr="";//æ¥æ”¶å­—ç¬¦ä¸²
 		do
 		{
 			sendMessage(str);
-			recvStr = receiveMessage();//½ÓÊÕ·şÎñÆ÷»Ø¸´µÄ407¼øÈ¨ÇëÇóÏûÏ¢
+			recvStr = receiveMessage();//æ¥æ”¶æœåŠ¡å™¨å›å¤çš„407é‰´æƒè¯·æ±‚æ¶ˆæ¯
 			switch(stat)
 			{
-				case Reg407: //Èç¹ûÊÇ½ÓÊÕ407µÄ´¦Àí·½·¨
+				case Reg407: //å¦‚æœæ˜¯æ¥æ”¶407çš„å¤„ç†æ–¹æ³•
 					if(recvStr.contains(keytext[stat.Reg407.ordinal()]))
 					{
 						receivedResponse = true;
-						logToFile("½ÓÊÕ"+keytext[stat.Reg407.ordinal()]+"³É¹¦\r\n");//½ÓÊÕSIP/2.0 407 Proxy Authentication Required³É¹¦
+						logToFile("æ¥æ”¶"+keytext[stat.Reg407.ordinal()]+"æˆåŠŸ\r\n");//æ¥æ”¶SIP/2.0 407 Proxy Authentication RequiredæˆåŠŸ
 					}
 					else if(recvStr.contains(keytext[stat.Reg418.ordinal()]))
 					{
-						logToFile("½ÓÊÕµ½"+keytext[stat.Reg418.ordinal()]+"\r\n");
+						logToFile("æ¥æ”¶åˆ°"+keytext[stat.Reg418.ordinal()]+"\r\n");
 						str = creatMeassage(CreateMes.Reg);
 						try {
 							Thread.sleep(Delay);
@@ -1226,30 +1226,30 @@ public class UnRegistrar
 					else
 					{
 						if(!timeoutflag)
-							logToFile("½ÓÊÕÊı¾İ°ü²»ÊÇ"+keytext[stat.Reg407.ordinal()]+"ºÍ418"+"\r\n");//½ÓÊÕµÄÊı¾İ°ü²»ÊÇSIP/2.0 407 Proxy Authentication Required ºÍ 418
+							logToFile("æ¥æ”¶æ•°æ®åŒ…ä¸æ˜¯"+keytext[stat.Reg407.ordinal()]+"å’Œ418"+"\r\n");//æ¥æ”¶çš„æ•°æ®åŒ…ä¸æ˜¯SIP/2.0 407 Proxy Authentication Required å’Œ 418
 						else
-							timeoutflag = false; //ÖØÖÃ±êÖ¾Î»£¬½ÓÊÕ³¬Ê±
+							timeoutflag = false; //é‡ç½®æ ‡å¿—ä½ï¼Œæ¥æ”¶è¶…æ—¶
 						str = creatMeassage(CreateMes.Reg);
 					}
 					break;
-				case OK200: //½ÓÊÕ200 OKµÄ´¦Àí·½·¨
+				case OK200: //æ¥æ”¶200 OKçš„å¤„ç†æ–¹æ³•
 					if(recvStr.contains(keytext[stat.OK200.ordinal()]))
 					{
 						receivedResponse = true;
-					    logToFile("½ÓÊÕ"+keytext[stat.OK200.ordinal()]+"³É¹¦\r\n");//½ÓÊÕSIP/2.0 200 OK³É¹¦
+					    logToFile("æ¥æ”¶"+keytext[stat.OK200.ordinal()]+"æˆåŠŸ\r\n");//æ¥æ”¶SIP/2.0 200 OKæˆåŠŸ
 					}
 					else
 					{
 					    if(!timeoutflag)
 					    {
-							logToFile("½ÓÊÕÊı¾İ°ü²»ÊÇ"+keytext[stat.OK200.ordinal()]+"\r\n");//½ÓÊÕµÄÊı¾İ°ü²»ÊÇSIP/2.0 200 OK
+							logToFile("æ¥æ”¶æ•°æ®åŒ…ä¸æ˜¯"+keytext[stat.OK200.ordinal()]+"\r\n");//æ¥æ”¶çš„æ•°æ®åŒ…ä¸æ˜¯SIP/2.0 200 OK
 					    }
 						else
 						{
-							timeoutflag = false; //ÖØÖÃ±êÖ¾Î»£¬½ÓÊÕ³¬Ê±
+							timeoutflag = false; //é‡ç½®æ ‡å¿—ä½ï¼Œæ¥æ”¶è¶…æ—¶
 						}
 						str = (((record == Command.SendMsg)||(record == Command.FpreShared))  ? strSSM : 
-					    	creatMeassage(CreateMes.Reg407)); //Èç¹ûÊÇÖ´ĞĞ·¢ËÍÏûÏ¢µÄÃüÁî£¬ÊÕ²»µ½200OKÖØ·¢json´®£¬ Èç¹ûÊÇÖ´ĞĞÆäËûÃüÁî£¬¾ÍÖØ·¢407¼øÈ¨
+					    	creatMeassage(CreateMes.Reg407)); //å¦‚æœæ˜¯æ‰§è¡Œå‘é€æ¶ˆæ¯çš„å‘½ä»¤ï¼Œæ”¶ä¸åˆ°200OKé‡å‘jsonä¸²ï¼Œ å¦‚æœæ˜¯æ‰§è¡Œå…¶ä»–å‘½ä»¤ï¼Œå°±é‡å‘407é‰´æƒ
 					/*
 						try {
 							Thread.sleep(Delay);
@@ -1260,30 +1260,30 @@ public class UnRegistrar
 					*/
 					}
 					break;
-				case Trying: //½ÓÊÕ100 TryingµÄ´¦Àí·½·¨
+				case Trying: //æ¥æ”¶100 Tryingçš„å¤„ç†æ–¹æ³•
 					if(recvStr.contains(keytext[stat.Trying.ordinal()]))
 					{
 						receivedResponse = true;
-						logToFile("½ÓÊÕ"+keytext[stat.Trying.ordinal()]+"³É¹¦\r\n");//½ÓÊÕSIP/2.0 100 Trying ³É¹¦
+						logToFile("æ¥æ”¶"+keytext[stat.Trying.ordinal()]+"æˆåŠŸ\r\n");//æ¥æ”¶SIP/2.0 100 Trying æˆåŠŸ
 					}
 					else
 					{
 						if(!timeoutflag)
-							logToFile("½ÓÊÕÊı¾İ°ü²»ÊÇ"+keytext[stat.Trying.ordinal()]+"\r\n");
+							logToFile("æ¥æ”¶æ•°æ®åŒ…ä¸æ˜¯"+keytext[stat.Trying.ordinal()]+"\r\n");
 						else
-							timeoutflag = false; //ÖØÖÃ±êÖ¾Î»£¬½ÓÊÕ³¬Ê±
+							timeoutflag = false; //é‡ç½®æ ‡å¿—ä½ï¼Œæ¥æ”¶è¶…æ—¶
 						str = creatMeassage(CreateMes.Invite);
 					}
 				default:
 					break;
 			}
-		}while((!receivedResponse) && (++tries < MAXTRIES));//½ÓÊÕÊ§°Ütries¼ÓÒ»
+		}while((!receivedResponse) && (++tries < MAXTRIES));//æ¥æ”¶å¤±è´¥triesåŠ ä¸€
 		
-		return recvStr;//·µ»Ø½ÓÊÕµ½ÕıÈ·×Ö·û´®
+		return recvStr;//è¿”å›æ¥æ”¶åˆ°æ­£ç¡®å­—ç¬¦ä¸²
 	}
 	/**
-	   * Õâ¸ö·½·¨·¢ËÍÊı¾İ
-	   * @param str: Òª·¢ËÍµÄ×Ö·û´® 
+	   * è¿™ä¸ªæ–¹æ³•å‘é€æ•°æ®
+	   * @param str: è¦å‘é€çš„å­—ç¬¦ä¸² 
 	*/
 	void sendMessage(String str) 
 	{
@@ -1298,8 +1298,8 @@ public class UnRegistrar
 		}
 	}
 	/**
-	   * Õâ¸ö·½·¨½ÓÊÕÒ»¸ö×Ö·û´®Êı¾İ
-	   * @return ½ÓÊÕÊı¾İ£¬²¢ÒÔ×Ö·û´®µÄĞÎÊ½·µ»Ø
+	   * è¿™ä¸ªæ–¹æ³•æ¥æ”¶ä¸€ä¸ªå­—ç¬¦ä¸²æ•°æ®
+	   * @return æ¥æ”¶æ•°æ®ï¼Œå¹¶ä»¥å­—ç¬¦ä¸²çš„å½¢å¼è¿”å›
 	*/
 	String receiveMessage()
 	{		
@@ -1314,7 +1314,7 @@ public class UnRegistrar
 		}catch(Exception e){
 			
 			//logToFile("Time out!!!\r\n");
-			timeoutflag = true;//ÖÃ±êÖ¾Î»
+			timeoutflag = true;//ç½®æ ‡å¿—ä½
 		}
 		
 		recvStr=new String(recvPacket.getData(),0,recvPacket.getLength());
@@ -1322,17 +1322,16 @@ public class UnRegistrar
 	}
 
 	/**
-	   * Õâ¸ö·½·¨½«Ò»¸ö×Ö·û´®µÄÄÚÈİĞ´Èëµ½Ö¸¶¨ÎÄ¼şÖĞ
-	   * @param info: ĞèÒªĞ´ÈëµÄ×Ö·û´®
+	   * è¿™ä¸ªæ–¹æ³•å°†ä¸€ä¸ªå­—ç¬¦ä¸²çš„å†…å®¹å†™å…¥åˆ°æŒ‡å®šæ–‡ä»¶ä¸­
+	   * @param info: éœ€è¦å†™å…¥çš„å­—ç¬¦ä¸²
 	*/
 	void logToFile(String info)
 	{   
 		logToFile(info, "C:\\log\\log.txt");
 	}
-	//ÖØÔØlogToFile
+	//é‡è½½logToFile
 	void logToFile(String info, String location)
 	{
-		/*
 		File logFile = new File(location);
 
 		try{
@@ -1355,9 +1354,8 @@ public class UnRegistrar
 		}catch(IOException e2){
 			e2.printStackTrace();
 		}
-		*/
 	}
-	//ÖØÔØlogToFile
+	//é‡è½½logToFile
 	void RcvPackToFile(String info, String location)
 	{
 		File logFile = new File(location);
